@@ -1,3 +1,6 @@
 # システム設定ファイル（Claude Code / GitHub Copilot用）
 CLAUDE.md
 AGENTS.md
+
+# スライド（Marp）はlint対象外
+docs/スライド/**
