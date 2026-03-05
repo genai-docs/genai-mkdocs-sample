@@ -14,6 +14,10 @@ nav:
       - 目次: サンプル/index.md
       - Draw.io: サンプル/draw-io.md
       - Marp: サンプル/marp.md
+  - スライド:
+      - 一覧: スライド/index.md
+      - 生成AI時代のドキュメント基盤: スライド/genai-documentation-infrastructure.md
+      - Marp: スライド/marp.md
       - Mermaid: サンプル/mermaid.md
 
 theme:
