@@ -1,6 +1,6 @@
-# 仕様駆動開発時代のドキュメント基盤
+# 生成AI時代のドキュメント基盤
 
-仕様駆動開発時代におけるドキュメント基盤テンプレート。
+生成AI時代におけるドキュメント基盤テンプレート。
 
 - デモサイト
     - [GitHub Pages](https://genai-mkdocs.github.io/genai-mkdocs-sample/)

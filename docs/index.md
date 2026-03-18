@@ -1,13 +1,13 @@
-# 仕様駆動開発時代のドキュメント基盤
+# 生成AI時代のドキュメント基盤
 
-仕様駆動開発時代におけるドキュメント基盤のテンプレート。
+生成AI時代におけるドキュメント基盤のテンプレート。
 
-Markdown文書を静的サイトジェネレーターでHTMLに変換・公開することで、つぎを実現しする。
+Markdown文書を静的サイトジェネレーターでHTMLに変換・公開することで、次を実現する。
 
 - Markdownによる文書記述
 - Mermaidによる図表作成
 - Draw.ioによるSVG図表作成
-- GitHub Pages*1 もしくはAzure Static Web Apps（以降SWA）による正式文書公開
+- GitHub Pages*1 もしくは Azure Static Web Apps（以降SWA）による正式文書公開
 - Pull Request時にSWAでのプレビュー
 - GitHubリポジトリの権限に応じたセキュリティ管理*1
 - GitHub Discussionsを通じた新規ユーザーへの招待・承認フロー*2
