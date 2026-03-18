@@ -29,7 +29,7 @@ Draw.ioは以下のような場面で使用する。
 
 ## サンプル
 
-以下はDraw.ioで作成した図の例です。
+以下はDraw.ioで作成した図の例である。
 
 ![draw-io-sample.drawio.svg](draw-io-sample.drawio.svg)
 
