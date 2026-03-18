@@ -118,7 +118,7 @@ footer: 'フッターテキスト'
 
 ## サンプルスライド
 
-[marp-sample.html](marp-sample.html)は、以下のテキストをMarkdownファイルとして保存し、Marpで作成したサンプルスライドをHTML形式に変換したものです。  
+[marp-sample.html](marp-sample.html)は、以下のテキストをMarkdownファイルとして保存し、Marpで作成したサンプルスライドをHTML形式に変換したものである。  
 
 ```txt
 ---
