@@ -227,4 +227,4 @@ Markdownベースのドキュメント基盤を構築・運用してきました
 
 </div>
 
-[ドキュメンテーション戦略.pdf](https://genai-mkdocs.github.io/genai-mkdocs-sample/pdf/ドキュメンテーション戦略.pdf)
+[ドキュメンテーション戦略.pdf](https://genai-docs.github.io/genai-mkdocs-sample/pdf/ドキュメンテーション戦略.pdf)
