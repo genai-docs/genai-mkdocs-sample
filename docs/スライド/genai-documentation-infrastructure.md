@@ -3,7 +3,7 @@ marp: true
 theme: custom
 ---
 
-# 生成AI時代のドキュメント基盤 
+# 生成AI時代のドキュメント基盤
 
 --- 
 
