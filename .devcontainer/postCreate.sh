@@ -2,6 +2,13 @@
 set -euo pipefail
 
 echo "=== [1/5] Installing system dependencies ==="
+# The Node feature may leave a legacy Yarn apt source behind. This workspace
+# uses Corepack for package managers, so the external Yarn repository is not
+# required and can break apt-get update if its signing key is missing.
+if [ -f /etc/apt/sources.list.d/yarn.list ]; then
+  sudo rm -f /etc/apt/sources.list.d/yarn.list
+fi
+
 sudo apt-get update -qq
 sudo apt-get install -y --no-install-recommends \
   chromium \

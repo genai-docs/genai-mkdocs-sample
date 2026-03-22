@@ -37,6 +37,8 @@ VS Code の [Dev Containers](https://marketplace.visualstudio.com/items?itemName
 3. 右下の通知、またはコマンドパレット（`Ctrl+Shift+P`）から **「Reopen in Container」** を選択
 4. 初回のみコンテナのビルドが実行される（10〜15分程度）
 
+補足：このリポジトリでは Dev Container の Node feature に対して `installYarnUsingApt: false` を明示し、Yarn を APT リポジトリではなく Corepack 経由で扱う。これにより、外部 Yarn リポジトリの署名鍵欠落による `apt-get update` 失敗を回避する。
+
 コンテナ起動後、ターミナルで以下のコマンドが利用できる：
 
 | コマンド | 内容 |
@@ -47,6 +49,20 @@ VS Code の [Dev Containers](https://marketplace.visualstudio.com/items?itemName
 | `pnpm mkdocs:pdf` | PDF を生成 |
 | `pnpm lint:text` | textlint でドキュメントを検査 |
 | `pnpm lint:text:fix` | textlint で自動修正 |
+
+### Dev Container トラブルシュート
+
+`postCreateCommand` 実行時に以下のような Yarn APT 署名エラーが出る場合がある。
+
+```text
+W: GPG error: https://dl.yarnpkg.com/debian stable InRelease: The following signatures couldn't be verified because the public key is not available
+E: The repository 'https://dl.yarnpkg.com/debian stable InRelease' is not signed.
+```
+
+このリポジトリでは [.devcontainer/devcontainer.json](.devcontainer/devcontainer.json) で `installYarnUsingApt: false` を設定し、さらに [.devcontainer/postCreate.sh](.devcontainer/postCreate.sh) で残存する `yarn.list` を除去するようにしている。既存コンテナーで同様の状態に遭遇した場合は、以下のどちらかで復旧できる。
+
+1. VS Code で **Dev Containers: Rebuild Container** を実行する
+2. コンテナー内で `bash .devcontainer/postCreate.sh` を再実行する
 
 ## 技術スタック
 
