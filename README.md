@@ -33,13 +33,13 @@ VS Code の [Dev Containers](https://marketplace.visualstudio.com/items?itemName
 **前提条件：** Docker、VS Code、Dev Containers 拡張機能
 
 1. このリポジトリをクローン
-2. VS Code でフォルダを開く
+2. VS Code でフォルダーを開く
 3. 右下の通知、またはコマンドパレット（`Ctrl+Shift+P`）から **「Reopen in Container」** を選択
-4. 初回のみコンテナのビルドが実行される（10〜15分程度）
+4. 初回のみコンテナーのビルドが実行される（10〜15分程度）
 
 補足：このリポジトリでは、OS パッケージと `uv` を [`.devcontainer/Dockerfile`](.devcontainer/Dockerfile) に含め、ワークスペース依存の初期化だけを [`.devcontainer/postCreate.sh`](.devcontainer/postCreate.sh) で実行する。さらに Dev Container の Node feature に対して `installYarnUsingApt: false` を明示し、Yarn を APT リポジトリではなく Corepack 経由で扱う。ビルド時には `Dockerfile` 側で残存する `yarn.list` も除去し、`apt-get update` が失敗しないようにしている。
 
-コンテナ起動後、ターミナルで以下のコマンドが利用できる：
+コンテナー起動後、ターミナルで以下のコマンドが利用できる：
 
 | コマンド | 内容 |
 |----------|------|
