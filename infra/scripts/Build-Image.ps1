@@ -1,9 +1,9 @@
 <#
 .SYNOPSIS
-    ハンズオン用コンテナイメージをビルドする。
+    プロジェクト実行環境のコンテナイメージをビルドする。
 
 .DESCRIPTION
-    infra/Dockerfile.handson を使用してハンズオン環境のコンテナイメージをビルドする。
+    infra/docker/Dockerfile を使用してプロジェクト実行環境のコンテナイメージをビルドする。
     -Push スイッチを指定すると ghcr.io へプッシュも行う。
 
 .PARAMETER ImageTag
@@ -13,9 +13,9 @@
     ビルド後に ghcr.io へプッシュする。
 
 .EXAMPLE
-    .\Build-HandsonImage.ps1
-    .\Build-HandsonImage.ps1 -ImageTag v1.0
-    .\Build-HandsonImage.ps1 -ImageTag v1.0 -Push
+    .\Build-Image.ps1
+    .\Build-Image.ps1 -ImageTag v1.0
+    .\Build-Image.ps1 -ImageTag v1.0 -Push
 #>
 param(
     [string]$ImageTag,
@@ -25,7 +25,7 @@ param(
 
 $ErrorActionPreference = 'Stop'
 
-$repoRoot = Split-Path -Parent $PSScriptRoot
+$repoRoot = Split-Path -Parent (Split-Path -Parent $PSScriptRoot)
 
 # ---------- 設定読み込み ----------
 $settingsPath = Join-Path $repoRoot 'settings.local.json'
@@ -54,7 +54,7 @@ Write-Host ''
 
 # ---------- ビルド ----------
 Write-Host "イメージをビルド中 ($imageRef)..."
-docker build -t $imageRef -f (Join-Path $repoRoot 'infra/Dockerfile.handson') $repoRoot
+docker build -t $imageRef -f (Join-Path $repoRoot 'infra/docker/Dockerfile') $repoRoot
 if ($LASTEXITCODE -ne 0) { throw "イメージのビルドに失敗しました" }
 Write-Host "ビルド完了: $imageRef"
 

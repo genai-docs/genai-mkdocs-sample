@@ -35,7 +35,7 @@ param(
 
 $ErrorActionPreference = 'Stop'
 
-$repoRoot = Split-Path -Parent $PSScriptRoot
+$repoRoot = Split-Path -Parent (Split-Path -Parent $PSScriptRoot)
 $outDir = Join-Path $repoRoot 'handson-out'
 if (-not (Test-Path $outDir)) { New-Item -ItemType Directory -Path $outDir | Out-Null }
 $timestamp = Get-Date -Format 'yyyyMMddHHmmss'
@@ -80,7 +80,7 @@ if ($SkipImageBuild) {
     Write-Host '[1/5] イメージビルドをスキップ'
 } else {
     Write-Host "[1/5] イメージをビルド・プッシュ中 ($imageRef)..."
-    & (Join-Path $PSScriptRoot 'Build-HandsonImage.ps1') -ImageTag $ImageTag -Push
+    & (Join-Path $PSScriptRoot 'Build-Image.ps1') -ImageTag $ImageTag -Push
     if ($LASTEXITCODE -ne 0) { throw "イメージのビルド・プッシュに失敗しました" }
 }
 
@@ -101,7 +101,7 @@ if ($LASTEXITCODE -ne 0) { throw "リソースグループの作成に失敗し�
 Write-Host '[4/5] 共有インフラをデプロイ中（Log Analytics, Container Apps Environment）...'
 $infraJson = az deployment group create `
     --resource-group $rgName `
-    --template-file (Join-Path $repoRoot 'infra/main.bicep') `
+    --template-file (Join-Path $repoRoot 'infra/azure/main.bicep') `
     --parameters "location=$($settings.location)" `
     --output json 2>$null
 if ($LASTEXITCODE -ne 0) { throw "共有インフラのデプロイに失敗しました" }
@@ -130,7 +130,7 @@ for ($i = 1; $i -le $UserCount; $i++) {
     )
     $appJson = az deployment group create `
         --resource-group $rgName `
-        --template-file (Join-Path $repoRoot 'infra/container-app.bicep') `
+        --template-file (Join-Path $repoRoot 'infra/azure/container-app.bicep') `
         --parameters $deployParams `
         --output json 2>$null
     if ($LASTEXITCODE -ne 0) { throw "Container App '$userName' のデプロイに失敗しました" }

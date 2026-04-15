@@ -5,7 +5,7 @@ PowerShell スクリプトの実装とテストに関する指針。
 ## ディレクトリ構成
 
 ```
-scripts/
+infra/scripts/
   *.ps1           # プロダクションスクリプト
   tests/
     *.Tests.ps1   # Pester テスト
@@ -29,8 +29,8 @@ scripts/
 
 ```powershell
 # 全テスト実行（カバレージ付き）
-& scripts/tests/Run-AllTests.ps1
+& infra/scripts/tests/Run-AllTests.ps1
 
 # 個別テスト実行
-Invoke-Pester scripts/tests/<対象>.Tests.ps1
+Invoke-Pester infra/scripts/tests/<対象>.Tests.ps1
 ```

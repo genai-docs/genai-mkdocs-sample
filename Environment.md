@@ -1,109 +1,68 @@
-# ハンズオン実行環境 アーキテクチャ
+# ハンズオン実行環境
 
-## リソース一覧
+この文書は、ハンズオン実行環境の全体像と運用導線をまとめたものである。Azure リソース定義や各パラメーターの詳細は文書に重複記載せず、実装そのものを正として Bicep / スクリプトを参照する。
 
-| リソース種別 | 数量 | 概略 |
-|---|---|---|
-| GitHub Container Registry (ghcr.io) | 1 | ハンズオン用コンテナイメージの格納先（パブリック・無料） |
-| Log Analytics Workspace | 1 | コンテナログの収集・トラブルシューティング用 |
-| Container Apps Environment | 1 | 全参加者のコンテナが稼働する共有実行基盤 |
-| Container App | 参加者数 | 参加者ごとのcode-server環境（1 vCPU / 2 GiB） |
+## 構成概要
 
-## 全体像
+参加者がブラウザのみで作業できるよう、Azure Container Apps 上に参加者ごとの `code-server` 環境をデプロイする。コンテナイメージは `ghcr.io` に格納し、Container Apps から取得する。
 
-参加者がブラウザのみでハンズオン作業を行えるよう、Azure上にひとりひとり専用のコンテナ環境を提供する構成である。
-
-```
+```text
 参加者 (ブラウザ)
     │
-    │ HTTPS (パスワード認証)
+    │ HTTPS + パスワード認証
     ▼
-┌─────────────────────────────────────────────────┐
-│  Container Apps Environment                      │
-│  (全参加者で共有する実行基盤)                      │
-│                                                  │
-│  ┌──────────┐ ┌──────────┐     ┌──────────┐     │
-│  │ user-01  │ │ user-02  │ ... │ user-N   │     │
-│  │          │ │          │     │          │     │
-│  │ code-    │ │ code-    │     │ code-    │     │
-│  │ server   │ │ server   │     │ server   │     │
-│  │ :8080    │ │ :8080    │     │ :8080    │     │
-│  └──────────┘ └──────────┘     └──────────┘     │
-│       │                                          │
-│       │ ログ収集                                  │
-│       ▼                                          │
-│  Log Analytics                                   │
-└─────────────────────────────────────────────────┘
-        ▲
-        │ イメージ取得 (パブリック・認証不要)
+Container App (参加者ごと)
+    │
+    ├─ code-server : 8080
+    └─ mkdocs serve : 8000
+         ※ 参加者が必要に応じて起動
+         ※ 外部公開はしない
+
+        ↑
+        │ 配置先
         │
-   GitHub Container Registry
-   (ghcr.io / ハンズオン用イメージを格納)
+Container Apps Environment
+        │
+        └─ ログ送信先: Log Analytics Workspace
+
+        ↑
+        │ イメージ取得
+        │
+GitHub Container Registry (ghcr.io)
 ```
 
-## 構成要素の役割
+## 実装との対応
 
-### GitHub Container Registry (ghcr.io)
+現在の実装では、環境構築に関わる主要ファイルは以下のとおりである。
 
-ハンズオン用コンテナイメージの保管場所。code-server・MkDocs・VS Code拡張機能・ハンズオン資材をすべて含んだイメージを格納する。イメージタグにはGitコミットハッシュを使用し、どのリビジョンのソースから構築されたかを追跡できるようにしている。パブリックパッケージとして公開するため、ストレージ・転送ともに無料で利用できる。
+- インフラのエントリーポイント: [infra/scripts/Deploy-HandsonEnv.ps1](/home/ubuntu/genai-mkdocs-sample/infra/scripts/Deploy-HandsonEnv.ps1)
+- イメージビルド: [infra/scripts/Build-Image.ps1](/home/ubuntu/genai-mkdocs-sample/infra/scripts/Build-Image.ps1)
+- 環境削除: [infra/scripts/Remove-HandsonEnv.ps1](/home/ubuntu/genai-mkdocs-sample/infra/scripts/Remove-HandsonEnv.ps1)
+- 共有インフラ定義: [infra/azure/main.bicep](/home/ubuntu/genai-mkdocs-sample/infra/azure/main.bicep)
+- 参加者用アプリ定義: [infra/azure/container-app.bicep](/home/ubuntu/genai-mkdocs-sample/infra/azure/container-app.bicep)
+- 実行コンテナ定義: [infra/docker/Dockerfile](/home/ubuntu/genai-mkdocs-sample/infra/docker/Dockerfile)
+- デプロイ設定: [settings.local.json](/home/ubuntu/genai-mkdocs-sample/settings.local.json)
 
-### Log Analytics Workspace
+詳細な Azure リソース定義、Container App の構成、パラメーター、命名規則、出力値は Bicep を参照すること。
 
-Container Apps Environmentのログ収集先。参加者のコンテナが起動しない、応答しないといった問題が発生した際に、ログを確認してトラブルシューティングを行うために使用する。
+## 運用フロー
 
-### Container Apps Environment
+### 構築
 
-全参加者のContainer Appが稼働する共有実行基盤。ネットワーク・ログ収集・DNS解決などの基盤機能を提供する。各Container Appにはこの環境のドメインをベースとした一意のFQDNが割り当てられる。
+環境構築は [infra/scripts/Deploy-HandsonEnv.ps1](/home/ubuntu/genai-mkdocs-sample/infra/scripts/Deploy-HandsonEnv.ps1) から実行する。スクリプトは `settings.local.json` を読み込み、必要に応じてコンテナイメージをビルド・プッシュし、その後 Azure 上へ共有インフラと参加者用 Container App 群をデプロイする。
 
-### Container App（参加者ごと）
+参加者情報の出力やログは、リポジトリ直下の `handson-out/` に保存される。
 
-参加者ひとりにつき1台デプロイされるコンテナ。以下の特性を持つ。
+### 当日運用
 
-- **code-server（port 8080）** をIngressで外部HTTPS公開し、ブラウザからVS Code相当の操作環境を提供する
-- **パスワード認証**により、割り当てられた参加者のみがアクセスできる
-- **min-replicas=1** を設定し、スケールインによるコンテナ停止を防止する
-- 参加者がターミナルから`mkdocs serve`を起動し、コンテナ内部のport 8000でプレビューをSimple Browserから閲覧する（外部には公開しない）
-- ghcr.io のパブリックイメージを直接取得するため、認証設定は不要
+参加者は配布された URL とパスワードで `code-server` にログインする。`mkdocs serve` の起動は参加者の操作で行い、プレビューはコンテナ内部の `localhost:8000` を利用する前提である。
 
-## デプロイの仕組み
+### 片付け
 
-環境の構築は `scripts/Deploy-HandsonEnv.ps1` で一括実行する。内部では2段階のBicepテンプレートを使用している。
+環境削除は [infra/scripts/Remove-HandsonEnv.ps1](/home/ubuntu/genai-mkdocs-sample/infra/scripts/Remove-HandsonEnv.ps1) を利用する。削除対象の判定方法や一括削除の挙動はスクリプト実装を参照すること。
 
-1. **`infra/main.bicep`** — Log Analytics・Container Apps Environmentの共有インフラをデプロイ
-2. **`infra/container-app.bicep`** — 参加者ごとのContainer Appをデプロイ（パスワードを個別生成）
+## 補足
 
-イメージのビルドはローカルの Docker で実行し、ghcr.io にプッシュする。事前に `docker login ghcr.io` で認証しておく必要がある。
-
-## コスト見通し
-
-Visual Studio Enterpriseサブスクリプション付帯のAzureクレジット（$150/月 ≒ 24,000円/月）内での運用を前提とする。
-
-> 以下の円換算は $1 = 160円 で算出している。
-
-### 固定費
-
-コンテナレジストリに ghcr.io（パブリック）を使用するため、Azure 側の固定費は発生しない。
-
-### 従量課金（ハンズオン開催時のみ）
-
-| リソース | 単価 | 備考 |
-|---|---|---|
-| Container App (1 vCPU / 2 GiB) | 約10円/時間/台 | Consumptionプラン。稼働時間のみ課金 |
-
-### 想定シナリオ
-
-| 規模 | 時間 | Container Apps | 合計 |
-|---|---|---|---|
-| 10名 × 4時間 | 半日 | 約400円 | 約400円 |
-| 20名 × 4時間 | 半日 | 約800円 | 約800円 |
-| 20名 × 8時間 | 終日 | 約1,600円 | 約1,600円 |
-
-いずれのケースもクレジット上限（約24,000円/月）に対して十分な余裕がある。ハンズオン終了後にリソースグループを削除すれば、以降の課金は発生しない。
-
-## 環境のライフサイクル
-
-| フェーズ | 操作 |
-|---|---|
-| 構築 | `Deploy-HandsonEnv.ps1 -UserCount N` を実行 |
-| 当日運用 | 参加者に配布されたURL・パスワードでブラウザからアクセス |
-| 片付け | `Remove-HandsonEnv.ps1` でリソースグループごと一括削除 |
+- 実行コンテナは [infra/docker/Dockerfile](/home/ubuntu/genai-mkdocs-sample/infra/docker/Dockerfile) で定義している。
+- ローカル開発用 Dev Container は [.devcontainer/devcontainer.json](/home/ubuntu/genai-mkdocs-sample/.devcontainer/devcontainer.json) で同じ Dockerfile を参照している。
+- 実装詳細を文書へ転記しすぎると乖離しやすいため、構成や挙動の正確な確認はコードを優先する。

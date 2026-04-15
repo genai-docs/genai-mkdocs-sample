@@ -28,5 +28,16 @@
 
 DevContainerかAzure Container Appsを利用した、参加者のローカル環境に依存しない統一されたハンズオン実行環境を提供する。
 
+ビルド済みイメージをローカルで実行する場合は、以下のように `docker run` を利用する。
+
+```bash
+docker run --rm -it \
+  -p 8080:8080 \
+  -e PASSWORD=changeme \
+  spec-driven-docs-infra:latest
+```
+
+起動後は `http://localhost:8080` にアクセスし、指定したパスワードで `code-server` にログインする。
+
 - [Azure Container Appsを利用したハンズオン環境構築ガイド](Hands-on.md)
-- [環境情報](ENVIRONMENT.md)
+- [環境情報](Environment.md)
