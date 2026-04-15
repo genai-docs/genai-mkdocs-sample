@@ -12,9 +12,10 @@
 $ErrorActionPreference = 'Stop'
 
 $repoRoot = Split-Path -Parent $PSScriptRoot
+$outDir = Join-Path $repoRoot 'handson-out'
+if (-not (Test-Path $outDir)) { New-Item -ItemType Directory -Path $outDir | Out-Null }
 $timestamp = Get-Date -Format 'yyyyMMdd-HHmmss'
-$logPath = Join-Path $repoRoot "handson-remove-$timestamp.log"
-Start-Transcript -Path $logPath
+Start-Transcript -Path (Join-Path $outDir "remove-$timestamp.log")
 
 $settingsPath = Join-Path $repoRoot 'settings.local.json'
 

@@ -36,9 +36,10 @@ param(
 $ErrorActionPreference = 'Stop'
 
 $repoRoot = Split-Path -Parent $PSScriptRoot
+$outDir = Join-Path $repoRoot 'handson-out'
+if (-not (Test-Path $outDir)) { New-Item -ItemType Directory -Path $outDir | Out-Null }
 $timestamp = Get-Date -Format 'yyyyMMdd-HHmmss'
-$logPath = Join-Path $repoRoot "handson-deploy-$timestamp.log"
-Start-Transcript -Path $logPath
+Start-Transcript -Path (Join-Path $outDir "deploy-$timestamp.log")
 
 $settingsPath = Join-Path $repoRoot 'settings.local.json'
 
@@ -79,17 +80,17 @@ az group create `
 
 # ---------- 共有インフラデプロイ ----------
 Write-Host '[3/5] 共有インフラをデプロイ中（ACR, Managed Identity, Log Analytics, Container Apps Environment）...'
-$infraResult = az deployment group create `
+$infraJson = az deployment group create `
     --resource-group $settings.resourceGroup `
     --template-file (Join-Path $repoRoot 'infra/main.bicep') `
-    --parameters location=$($settings.location) `
-    --query 'properties.outputs' `
-    --output json | ConvertFrom-Json
+    --parameters "location=$($settings.location)" `
+    --output json 2>$null
+$infraOutputs = ($infraJson | ConvertFrom-Json).properties.outputs
 
-$acrName = $infraResult.acrName.value
-$acrLoginServer = $infraResult.acrLoginServer.value
-$environmentId = $infraResult.environmentId.value
-$identityId = $infraResult.identityId.value
+$acrName = $infraOutputs.acrName.value
+$acrLoginServer = $infraOutputs.acrLoginServer.value
+$environmentId = $infraOutputs.environmentId.value
+$identityId = $infraOutputs.identityId.value
 
 Write-Host "  ACR:         $acrLoginServer"
 Write-Host "  Environment: $environmentId"
@@ -116,24 +117,26 @@ for ($i = 1; $i -le $UserCount; $i++) {
 
     Write-Host "  デプロイ中: handson-$userName ($i/$UserCount)"
 
-    $appResult = az deployment group create `
+    $deployParams = @(
+        "location=$($settings.location)"
+        "environmentId=$environmentId"
+        "acrLoginServer=$acrLoginServer"
+        "identityId=$identityId"
+        "imageName=handson-env"
+        "imageTag=$ImageTag"
+        "userName=$userName"
+        "password=$password"
+    )
+    $appJson = az deployment group create `
         --resource-group $settings.resourceGroup `
         --template-file (Join-Path $repoRoot 'infra/container-app.bicep') `
-        --parameters `
-            location=$($settings.location) `
-            environmentId=$environmentId `
-            acrLoginServer=$acrLoginServer `
-            identityId=$identityId `
-            imageName='handson-env' `
-            imageTag=$ImageTag `
-            userName=$userName `
-            password=$password `
-        --query 'properties.outputs' `
-        --output json | ConvertFrom-Json
+        --parameters $deployParams `
+        --output json 2>$null
+    $appOutputs = ($appJson | ConvertFrom-Json).properties.outputs
 
     $credentials += [PSCustomObject]@{
         User     = $userName
-        URL      = "https://$($appResult.fqdn.value)"
+        URL      = "https://$($appOutputs.fqdn.value)"
         Password = $password
     }
 }
@@ -145,7 +148,7 @@ Write-Host '  デプロイ完了 - 参加者情報'
 Write-Host '========================================='
 $credentials | Format-Table -AutoSize
 
-$credentialsPath = Join-Path $repoRoot 'handson-credentials.json'
+$credentialsPath = Join-Path $outDir 'credentials.json'
 $credentials | ConvertTo-Json -Depth 2 | Out-File -FilePath $credentialsPath -Encoding utf8
 Write-Host "参加者情報を出力しました: $credentialsPath"
 

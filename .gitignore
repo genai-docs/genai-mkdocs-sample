@@ -6,8 +6,7 @@ settings.json.local.json
 
 # Azure
 azure-config.json
-handson-credentials.json
-handson-*.log
+handson-out/
 
 # Claude Code
 .claude/settings.local.json
