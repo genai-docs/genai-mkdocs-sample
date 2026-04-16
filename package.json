@@ -13,6 +13,8 @@
     "lint:text": "textlint README.md \"docs/**/*.md\"",
     "lint:text:fix": "textlint --fix README.md \"docs/**/*.md\"",
     "infra:build-image": "pwsh -File infra/scripts/Build-Image.ps1",
+    "infra:run-image": "pwsh -File infra/scripts/Run-Image.ps1",
+    "infra:release-tag": "pwsh -File infra/scripts/New-ReleaseTag.ps1",
     "infra:deploy-handson-env": "pwsh -File infra/scripts/Deploy-HandsonEnv.ps1",
     "infra:remove-handson-env": "pwsh -File infra/scripts/Remove-HandsonEnv.ps1",
     "infra:test": "pwsh -File infra/scripts/tests/Run-AllTests.ps1"
