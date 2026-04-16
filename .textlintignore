@@ -2,5 +2,8 @@
 CLAUDE.md
 AGENTS.md
 
+# 依存関係はlint対象外
+node_modules/**
+
 # スライド（Marp）はlint対象外
 docs/スライド/**

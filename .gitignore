@@ -1,6 +1,12 @@
 # User-specific ignores
 sitecustomize.py
 /docs/assets/
+.pnpm-store/
+settings.json.local.json
+
+# Azure
+azure-config.json
+handson-out/
 
 # Claude Code
 .claude/settings.local.json
