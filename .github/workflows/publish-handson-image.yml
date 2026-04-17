@@ -24,6 +24,10 @@ permissions:
   contents: read
   packages: write
 
+# Node.js 20 actions deprecation への先行対応（2026-06-02 以降 Node.js 24 が既定）
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 jobs:
   publish:
     runs-on: ubuntu-latest
