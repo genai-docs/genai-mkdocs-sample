@@ -27,11 +27,24 @@ RUN curl -fsSL https://deb.nodesource.com/setup_22.x | bash - \
     && rm -rf /var/lib/apt/lists/* \
     && corepack enable
 
+# CLI: OpenAI Codex / GitHub Copilot / antfu/ni（npm グローバル、root で導入）
+RUN npm install -g @openai/codex @github/copilot @antfu/ni
+
+# Marp / Puppeteer 用: システム Chromium を使用し、バンドル版のダウンロードを抑止
+ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true \
+    PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium \
+    CHROME_PATH=/usr/bin/chromium \
+    CHROME_NO_SANDBOX=true
+
 USER vscode
 
 # uv（Python パッケージマネージャー）
 RUN curl -LsSf https://astral.sh/uv/install.sh | sh
 ENV PATH="/home/vscode/.local/bin:${PATH}"
+
+# CLI: Claude Code / Cursor（vscode ユーザーの ~/.local/bin に導入）
+RUN curl -fsSL https://claude.ai/install.sh | bash \
+    && curl -fsSL https://cursor.com/install | bash
 
 # プロジェクトファイルのコピー（WORKDIR はディレクトリを root 所有で作成するため、先に mkdir する）
 RUN mkdir -p /home/vscode/workspace
@@ -45,10 +58,42 @@ RUN uv sync --frozen
 RUN corepack prepare pnpm@10.27.0 --activate \
     && pnpm install --frozen-lockfile
 
-# VS Code 拡張機能（code-server 用）
+# VS Code 拡張機能（code-server 用、Open VSX から取得）
 RUN code-server --install-extension ms-python.python \
     && code-server --install-extension yzhang.markdown-all-in-one \
-    && code-server --install-extension davidanson.vscode-markdownlint
+    && code-server --install-extension davidanson.vscode-markdownlint \
+    && code-server --install-extension bierner.markdown-mermaid \
+    && code-server --install-extension hediet.vscode-drawio \
+    && code-server --install-extension marp-team.marp-vscode
+
+# Open VSX 未公開の拡張は Visual Studio Marketplace から .vsix を直接取得して導入
+ARG TEXTLINT_VSIX_VERSION=0.12.1
+ARG CLAUDE_CODE_VSIX_VERSION=2.1.113
+ARG OPENAI_CHATGPT_VSIX_VERSION=26.5415.20818
+ARG GITHUB_COPILOT_CHAT_VSIX_VERSION=0.44.1
+RUN set -e; \
+    for spec in \
+        "3w36zj6/textlint/${TEXTLINT_VSIX_VERSION}" \
+        "anthropic/claude-code/${CLAUDE_CODE_VSIX_VERSION}" \
+        "openai/chatgpt/${OPENAI_CHATGPT_VSIX_VERSION}" \
+        "github/copilot-chat/${GITHUB_COPILOT_CHAT_VSIX_VERSION}" \
+    ; do \
+        publisher=$(echo "$spec" | cut -d/ -f1); \
+        name=$(echo "$spec" | cut -d/ -f2); \
+        version=$(echo "$spec" | cut -d/ -f3); \
+        vsix="/tmp/${publisher}.${name}.vsix"; \
+        echo ">>> Fetching ${publisher}.${name} v${version}"; \
+        curl -fsSL --compressed -o "$vsix" \
+            "https://marketplace.visualstudio.com/_apis/public/gallery/publishers/${publisher}/vsextensions/${name}/${version}/vspackage"; \
+        code-server --install-extension "$vsix"; \
+        rm "$vsix"; \
+    done
+
+# code-server 用 Marp 拡張のデフォルト設定（システム Chromium を利用）
+RUN mkdir -p /home/vscode/.local/share/code-server/User \
+    && printf '%s\n' '{' \
+        '  "markdown.marp.chromePath": "/usr/bin/chromium"' \
+        '}' > /home/vscode/.local/share/code-server/User/settings.json
 
 EXPOSE 8080
 ENTRYPOINT ["code-server", "--bind-addr", "0.0.0.0:8080", "--auth", "password", "/home/vscode/workspace"]

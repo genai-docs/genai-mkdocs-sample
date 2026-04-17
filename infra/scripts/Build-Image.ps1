@@ -1,25 +1,21 @@
 <#
 .SYNOPSIS
-    プロジェクト実行環境のコンテナイメージをビルドする。
+    プロジェクト実行環境のコンテナイメージを `latest` タグでビルドする。
 
 .DESCRIPTION
-    infra/docker/Dockerfile を使用してプロジェクト実行環境のコンテナイメージをビルドする。
+    infra/docker/Dockerfile を使用してプロジェクト実行環境のコンテナイメージを
+    常に `latest` タグでビルドする。リビルドにより置き換わって dangling になった
+    旧 `latest` イメージは自動で削除する。
     -Push スイッチを指定すると ghcr.io へプッシュも行う。
-
-.PARAMETER ImageTag
-    コンテナイメージのタグ。省略時は現在の Git コミットハッシュ（短縮形）を使用する。
 
 .PARAMETER Push
     ビルド後に ghcr.io へプッシュする。
 
 .EXAMPLE
     .\Build-Image.ps1
-    .\Build-Image.ps1 -ImageTag v1.0
-    .\Build-Image.ps1 -ImageTag v1.0 -Push
+    .\Build-Image.ps1 -Push
 #>
 param(
-    [string]$ImageTag,
-
     [switch]$Push
 )
 
@@ -34,13 +30,8 @@ if (-not (Test-Path $settingsPath)) {
 }
 $settings = Get-Content $settingsPath -Raw | ConvertFrom-Json
 
-# ---------- ImageTag 解決 ----------
-if (-not $ImageTag) {
-    $ImageTag = git -C $repoRoot rev-parse --short HEAD
-    Write-Host "ImageTag を Git コミットハッシュから自動取得: $ImageTag"
-}
-
 $ghcrImage = $settings.ghcrImage
+$ImageTag = 'latest'
 $imageRef = "${ghcrImage}:${ImageTag}"
 
 Write-Host ''
@@ -52,11 +43,21 @@ Write-Host "  プッシュ : $($Push.IsPresent)"
 Write-Host '========================================='
 Write-Host ''
 
+# ---------- 旧 latest イメージ ID を記録（後始末用） ----------
+$previousImageId = (docker images --quiet $imageRef 2>$null | Select-Object -First 1)
+
 # ---------- ビルド ----------
 Write-Host "イメージをビルド中 ($imageRef)..."
 docker build -t $imageRef -f (Join-Path $repoRoot 'infra/docker/Dockerfile') $repoRoot
 if ($LASTEXITCODE -ne 0) { throw "イメージのビルドに失敗しました" }
 Write-Host "ビルド完了: $imageRef"
+
+# ---------- 旧イメージの掃除 ----------
+$currentImageId = (docker images --quiet $imageRef | Select-Object -First 1)
+if ($previousImageId -and $previousImageId -ne $currentImageId) {
+    Write-Host "古いイメージを削除します: $previousImageId"
+    docker rmi $previousImageId *> $null
+}
 
 # ---------- プッシュ（オプション） ----------
 if ($Push) {

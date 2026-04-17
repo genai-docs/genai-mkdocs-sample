@@ -10,14 +10,9 @@
     "mkdocs:build:svg": "node scripts/mkdocs-svg.mjs",
     "mkdocs:build:pdf": "node scripts/mkdocs-pdf.mjs",
     "mkdocs:pdf": "pnpm mkdocs:build:pdf",
+    "slides:build:pdf": "marp --input-dir docs/スライド --output docs/スライド/dist --pdf --allow-local-files",
     "lint:text": "textlint README.md \"docs/**/*.md\"",
-    "lint:text:fix": "textlint --fix README.md \"docs/**/*.md\"",
-    "infra:build-image": "pwsh -File infra/scripts/Build-Image.ps1",
-    "infra:run-image": "pwsh -File infra/scripts/Run-Image.ps1",
-    "infra:release-tag": "pwsh -File infra/scripts/New-ReleaseTag.ps1",
-    "infra:deploy-handson-env": "pwsh -File infra/scripts/Deploy-HandsonEnv.ps1",
-    "infra:remove-handson-env": "pwsh -File infra/scripts/Remove-HandsonEnv.ps1",
-    "infra:test": "pwsh -File infra/scripts/tests/Run-AllTests.ps1"
+    "lint:text:fix": "textlint --fix README.md \"docs/**/*.md\""
   },
   "devDependencies": {
     "@marp-team/marp-cli": "^4.2.3",

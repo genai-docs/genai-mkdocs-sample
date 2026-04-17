@@ -8,32 +8,21 @@
     2. 参加者ごとの Container App デプロイ
     3. 参加者情報（URL・パスワード）の出力
 
-    コンテナイメージは GHCR に公開済みの `ghcr.io/<owner>/handson-env:<version>`
-    を pull する前提である。イメージの公開は CI (publish-handson-image.yml) が
-    Release-v<semver> タグの push を契機に実行するため、本スクリプトではビルド
-    しない。ローカルでイメージを差し替えたい場合は先に Build-Image.ps1 -Push
-    などでプッシュしておくこと。
+    コンテナイメージは GHCR に公開済みの `ghcr.io/<owner>/handson-env:latest`
+    を pull する前提である。イメージの公開は CI (publish-handson-image.yml)
+    によって行われるため、本スクリプトではビルドしない。ローカルでイメージを
+    差し替えたい場合は先に Build-Image.ps1 -Push でプッシュしておくこと。
 
 .PARAMETER UserCount
     参加者数。この数だけ Container App をデプロイする。
 
-.PARAMETER ImageTag
-    コンテナイメージのタグ。省略時は最新の Release-v<semver> タグから抽出した
-    バージョン（例: 1.1.1）を使用する。既存タグが無い場合はエラーとなるため、
-    明示的に -ImageTag を指定するか事前に pnpm infra:release-tag でタグを発行
-    すること。
-
 .EXAMPLE
     .\Deploy-HandsonEnv.ps1 -UserCount 20
-    .\Deploy-HandsonEnv.ps1 -UserCount 5 -ImageTag 1.1.1
-    .\Deploy-HandsonEnv.ps1 -UserCount 5 -ImageTag latest
 #>
 param(
     [Parameter(Mandatory)]
     [ValidateRange(1, 50)]
-    [int]$UserCount,
-
-    [string]$ImageTag
+    [int]$UserCount
 )
 
 $ErrorActionPreference = 'Stop'
@@ -57,33 +46,8 @@ $settings = Get-Content $settingsPath -Raw | ConvertFrom-Json
 # リソースグループ名: settings の値をプレフィックスとしタイムスタンプを付与
 $rgName = "$($settings.resourceGroup)-$timestamp"
 
-# ImageTag 省略時は最新の Release-v* タグからバージョンを抽出
-if (-not $ImageTag) {
-    $latestVersion = git -C $repoRoot tag --list 'Release-v*' |
-        ForEach-Object {
-            if ($_ -match '^Release-v(\d+)\.(\d+)\.(\d+)$') {
-                [PSCustomObject]@{
-                    Tag     = $_
-                    Version = '{0}.{1}.{2}' -f $matches[1], $matches[2], $matches[3]
-                    Major   = [int]$matches[1]
-                    Minor   = [int]$matches[2]
-                    Patch   = [int]$matches[3]
-                }
-            }
-        } |
-        Sort-Object Major, Minor, Patch |
-        Select-Object -Last 1
-
-    if (-not $latestVersion) {
-        throw "Release-v* タグが見つかりません。-ImageTag を明示指定するか、先に pnpm infra:release-tag でタグを発行してください。"
-    }
-
-    $ImageTag = $latestVersion.Version
-    Write-Host "ImageTag を最新 Release タグから自動取得: $ImageTag (元タグ: $($latestVersion.Tag))"
-}
-
 $ghcrImage = $settings.ghcrImage
-$imageRef = "${ghcrImage}:${ImageTag}"
+$imageRef = "${ghcrImage}:latest"
 
 Write-Host ''
 Write-Host '========================================='

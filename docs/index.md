@@ -38,7 +38,7 @@
 ```bash
 mise install
 mise run setup
-mise run mkdocs
+pnpm mkdocs
 ```
 
 詳しい手順は以下を参照する。
