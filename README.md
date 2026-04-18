@@ -25,8 +25,8 @@ mise run setup
 ```bash
 pnpm mkdocs
 pnpm mkdocs:build
-pnpm mkdocs:build:svg
-pnpm mkdocs:build:pdf
+pnpm marp
+pnpm marp:build
 pnpm lint:text
 mise run test
 mise run deploy-handson-env -- -UserCount 20

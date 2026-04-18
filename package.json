@@ -5,10 +5,10 @@
   "packageManager": "pnpm@10.27.0",
   "description": "生成AI時代のドキュメント基盤",
   "scripts": {
+    "marp": "marp -s docs/スライド",
+    "marp:build": "marp --input-dir docs/スライド --output docs/スライド/dist --pdf --allow-local-files",
     "mkdocs": "uv run mkdocs serve --livereload",
-    "mkdocs:build": "uv run mkdocs build",
-    "mkdocs:build:pdf": "RENDER_SVG=1 RENDER_PNG=1 ENABLE_PDF=1 uv run mkdocs build",
-    "slides:build:pdf": "marp --input-dir docs/スライド --output docs/スライド/dist --pdf --allow-local-files",
+    "mkdocs:build": "RENDER_SVG=1 RENDER_PNG=1 ENABLE_PDF=1 uv run mkdocs build",
     "lint:text": "textlint README.md \"docs/**/*.md\"",
     "lint:text:fix": "textlint --fix README.md \"docs/**/*.md\""
   },
