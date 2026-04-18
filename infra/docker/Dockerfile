@@ -27,9 +27,6 @@ RUN curl -fsSL https://deb.nodesource.com/setup_22.x | bash - \
     && rm -rf /var/lib/apt/lists/* \
     && corepack enable
 
-# CLI: OpenAI Codex / GitHub Copilot / antfu/ni（npm グローバル、root で導入）
-RUN npm install -g @openai/codex @github/copilot @antfu/ni
-
 # Marp / Puppeteer 用: システム Chromium を使用し、バンドル版のダウンロードを抑止
 ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true \
     PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium \
@@ -40,7 +37,7 @@ USER vscode
 
 # uv（Python パッケージマネージャー）
 RUN curl -LsSf https://astral.sh/uv/install.sh | sh
-ENV PATH="/home/vscode/.local/bin:${PATH}"
+ENV PATH="/home/vscode/workspace/node_modules/.bin:/home/vscode/.local/bin:${PATH}"
 
 # CLI: Claude Code / Cursor（vscode ユーザーの ~/.local/bin に導入）
 RUN curl -fsSL https://claude.ai/install.sh | bash \
@@ -64,7 +61,8 @@ RUN code-server --install-extension ms-python.python \
     && code-server --install-extension davidanson.vscode-markdownlint \
     && code-server --install-extension bierner.markdown-mermaid \
     && code-server --install-extension hediet.vscode-drawio \
-    && code-server --install-extension marp-team.marp-vscode
+    && code-server --install-extension marp-team.marp-vscode \
+    && code-server --install-extension tomoki1207.pdf
 
 # Open VSX 未公開の拡張は Visual Studio Marketplace から .vsix を直接取得して導入
 ARG TEXTLINT_VSIX_VERSION=0.12.1
@@ -94,6 +92,13 @@ RUN mkdir -p /home/vscode/.local/share/code-server/User \
     && printf '%s\n' '{' \
         '  "markdown.marp.chromePath": "/usr/bin/chromium"' \
         '}' > /home/vscode/.local/share/code-server/User/settings.json
+
+# login shell でも node_modules/.bin / ~/.local/bin が参照できるようにする
+# （/etc/profile が PATH を上書きするため）
+RUN printf '\n# Augment PATH for project-local bins\nexport PATH="/home/vscode/workspace/node_modules/.bin:/home/vscode/.local/bin:$PATH"\n' \
+        >> /home/vscode/.bashrc \
+    && printf '\n# Augment PATH for project-local bins\nexport PATH="/home/vscode/workspace/node_modules/.bin:/home/vscode/.local/bin:$PATH"\n' \
+        >> /home/vscode/.profile
 
 EXPOSE 8080
 ENTRYPOINT ["code-server", "--bind-addr", "0.0.0.0:8080", "--auth", "password", "/home/vscode/workspace"]

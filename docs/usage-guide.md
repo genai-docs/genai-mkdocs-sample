@@ -36,7 +36,7 @@ pnpm lint:text:fix
 ### Windows
 
 ```shell
-pnpm mkdocs:pdf
+pnpm mkdocs:build:pdf
 ```
 
 ## 実行コマンドの補足

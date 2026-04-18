@@ -7,16 +7,17 @@
   "scripts": {
     "mkdocs": "uv run mkdocs serve --livereload",
     "mkdocs:build": "uv run mkdocs build",
-    "mkdocs:build:svg": "node scripts/mkdocs-svg.mjs",
-    "mkdocs:build:pdf": "node scripts/mkdocs-pdf.mjs",
-    "mkdocs:pdf": "pnpm mkdocs:build:pdf",
+    "mkdocs:build:pdf": "RENDER_SVG=1 RENDER_PNG=1 ENABLE_PDF=1 uv run mkdocs build",
     "slides:build:pdf": "marp --input-dir docs/スライド --output docs/スライド/dist --pdf --allow-local-files",
     "lint:text": "textlint README.md \"docs/**/*.md\"",
     "lint:text:fix": "textlint --fix README.md \"docs/**/*.md\""
   },
   "devDependencies": {
+    "@antfu/ni": "^30.0.0",
+    "@github/copilot": "^1.0.32",
     "@marp-team/marp-cli": "^4.2.3",
     "@mermaid-js/mermaid-cli": "^11.12.0",
+    "@openai/codex": "^0.121.0",
     "rulesync": "^5.2.2",
     "textlint": "^14.4.0",
     "textlint-rule-no-mix-dearu-desumasu": "^6.0.4",

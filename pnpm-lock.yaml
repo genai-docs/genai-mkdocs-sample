@@ -8,12 +8,21 @@ importers:
 
   .:
     devDependencies:
+      '@antfu/ni':
+        specifier: ^30.0.0
+        version: 30.0.0
+      '@github/copilot':
+        specifier: ^1.0.32
+        version: 1.0.32
       '@marp-team/marp-cli':
         specifier: ^4.2.3
         version: 4.2.3
       '@mermaid-js/mermaid-cli':
         specifier: ^11.12.0
         version: 11.12.0(puppeteer@23.11.1)
+      '@openai/codex':
+        specifier: ^0.121.0
+        version: 0.121.0
       rulesync:
         specifier: ^5.2.2
         version: 5.2.2(hono@4.11.3)(valibot@1.2.0)
@@ -47,6 +56,11 @@ packages:
 
   '@antfu/install-pkg@1.1.0':
     resolution: {integrity: sha512-MGQsmw10ZyI+EJo45CdSER4zEb+p31LpDAFp2Z3gkSd1yqVZGi0Ebx++YTEMonJy4oChEMLsxZ64j8FH6sSqtQ==}
+
+  '@antfu/ni@30.0.0':
+    resolution: {integrity: sha512-DqBVB3XqXH4VsDpER7iLlEtayMC98iXrY7kwBzp1v6LGc/6U6+qnN3+X0bcPK63LMXJCRG2D/XDq7dvtKDGogg==}
+    engines: {node: '>=20.19.0'}
+    hasBin: true
 
   '@azu/format-text@1.0.2':
     resolution: {integrity: sha512-Swi4N7Edy1Eqq82GxgEECXSSLyn6GOb5htRFPzBDdUkECGXtlf12ynO5oJSpWKPwCaUssOu7NfhDcCWpIC6Ywg==}
@@ -146,6 +160,46 @@ packages:
 
   '@floating-ui/utils@0.2.10':
     resolution: {integrity: sha512-aGTxbpbg8/b5JfU1HXSrbH3wXZuLPJcNEcZQFMxLs3oSzgtVu6nFPkbbGGUvBcUjKV2YyB9Wxxabo+HEH9tcRQ==}
+
+  '@github/copilot-darwin-arm64@1.0.32':
+    resolution: {integrity: sha512-RtGHpnrbP1eVtpzitLqC0jkBlo63PJiByv6W/NTtLw4ZAllumb5kMk8JaTtydKl9DCOHA0wfXbG5/JkGXuQ81g==}
+    cpu: [arm64]
+    os: [darwin]
+    hasBin: true
+
+  '@github/copilot-darwin-x64@1.0.32':
+    resolution: {integrity: sha512-eyF6uy8gcZ4m/0UdM9UoykMDotZ8hZPJ1xIg0iHy4wrNtkYOaAspAoVpOkm50ODOQAHJ5PVV+9LuT6IoeL+wHQ==}
+    cpu: [x64]
+    os: [darwin]
+    hasBin: true
+
+  '@github/copilot-linux-arm64@1.0.32':
+    resolution: {integrity: sha512-acRAu5ehFPnw3hQSIxcmi7wzv8PAYd+nqdxZXizOi++en3QWgez7VEXiKLe9Ukf50iiGReg19yvWV4iDOGC0HQ==}
+    cpu: [arm64]
+    os: [linux]
+    hasBin: true
+
+  '@github/copilot-linux-x64@1.0.32':
+    resolution: {integrity: sha512-lw86YDwkTKwmeVpfnPErDe9DhemrOHN+l92xOU9wQSH5/d+HguXwRb3e4cQjlxsGLS+/fWRGtwf+u2fbQ37avw==}
+    cpu: [x64]
+    os: [linux]
+    hasBin: true
+
+  '@github/copilot-win32-arm64@1.0.32':
+    resolution: {integrity: sha512-+eZpuzgBbLHMIzltH541wfbbMy0HEdG91ISzRae3qPCssf3Ad85sat6k7FWTRBSZBFrN7z4yMQm5gROqDJYGSA==}
+    cpu: [arm64]
+    os: [win32]
+    hasBin: true
+
+  '@github/copilot-win32-x64@1.0.32':
+    resolution: {integrity: sha512-R6SW1dsEVmPMhrN/WRTetS4gVxcuYcxi2zfDPOfcjW3W0iD0Vwpt3MlqwBaU2UL36j+rnTnmiOA+g82FIBCYVg==}
+    cpu: [x64]
+    os: [win32]
+    hasBin: true
+
+  '@github/copilot@1.0.32':
+    resolution: {integrity: sha512-ydEYAztJQa1sLQw+WPmnkkt3Sf/k2Smn/7szzYvt1feUOdNIak1gHpQhKcgPr2w252gjVLRWjOiynoeLVW0Fbw==}
+    hasBin: true
 
   '@headlessui/react@2.2.9':
     resolution: {integrity: sha512-Mb+Un58gwBn0/yWZfyrCh0TJyurtT+dETj7YHleylHk5od3dv2XqETPGWMyQ5/7sYN7oWdyM1u9MvC0OC8UmzQ==}
@@ -281,6 +335,47 @@ packages:
   '@nodelib/fs.walk@1.2.8':
     resolution: {integrity: sha512-oGB+UxlgWcgQkgwo8GcEGwemoTFt3FIO9ababBmaGwXIoBKZ+GTy0pP185beGg7Llih/NSHSV2XAs1lnznocSg==}
     engines: {node: '>= 8'}
+
+  '@openai/codex@0.121.0':
+    resolution: {integrity: sha512-kCJ2NeATd4QBQRmqV04ymdN1ZU3MSwnJQDm/KzjpuzGvCuUVEn7no/T2mRyxQ2x77AACqriNOyPPoM/yufyvNg==}
+    engines: {node: '>=16'}
+    hasBin: true
+
+  '@openai/codex@0.121.0-darwin-arm64':
+    resolution: {integrity: sha512-ZyBqIB6Fb4I0hGb/h65Vu7ePYjHSmGiqqfm+/1djEuxDPkqjfi4wkxYxNYNY+6najyNGN4UijOSTTf19eDCrqw==}
+    engines: {node: '>=16'}
+    cpu: [arm64]
+    os: [darwin]
+
+  '@openai/codex@0.121.0-darwin-x64':
+    resolution: {integrity: sha512-1/OAtdkAZ5yPI3xqaEFlHuPziS1yCqL2gOZdswE7HTmmwpIxi6Z3FCo60JWDPluIp89z4tftdjq73/OCN0YVcw==}
+    engines: {node: '>=16'}
+    cpu: [x64]
+    os: [darwin]
+
+  '@openai/codex@0.121.0-linux-arm64':
+    resolution: {integrity: sha512-2UgMmdo237o7SCMsfb529cOSEM2HFUgN6OBkv5SBLwfNY1NO2Ex6JnUjlppEXlX6/4cXfZ5qjDghVz5j/+B9zw==}
+    engines: {node: '>=16'}
+    cpu: [arm64]
+    os: [linux]
+
+  '@openai/codex@0.121.0-linux-x64':
+    resolution: {integrity: sha512-vlpNJXIqss800J+32Vy7TUZzv31n61b45OLxmsVQGFkTNLJcjFrj9jDUC7I62eC4F16gLioilefNfv4CdJQOEw==}
+    engines: {node: '>=16'}
+    cpu: [x64]
+    os: [linux]
+
+  '@openai/codex@0.121.0-win32-arm64':
+    resolution: {integrity: sha512-m88q4f3XI5npn1t6OG0nWGHWWAjO5FgjRwxh4hdujbLO6t9CiCNfhfPZIOSsoATbrCNwLC+6S77m3cjbNToPNg==}
+    engines: {node: '>=16'}
+    cpu: [arm64]
+    os: [win32]
+
+  '@openai/codex@0.121.0-win32-x64':
+    resolution: {integrity: sha512-Fp0ecVOyM+VcBi/y4HVvRzhifO9YqRiHzhV3rhtAppC7flh22WPguLC4kmvXYAR0p3RPzbo35M2CedWnkOT+cw==}
+    engines: {node: '>=16'}
+    cpu: [x64]
+    os: [win32]
 
   '@pkgjs/parseargs@0.11.0':
     resolution: {integrity: sha512-+1VkjdD0QBLPodGrJUeqarH8VAIvQODIbwh9XpP5Syisf7YoQgsJKPNFoqqLQlu+VQ/tVSshMR6loPMn8U+dPg==}
@@ -1412,6 +1507,9 @@ packages:
     resolution: {integrity: sha512-trLf4SzuuUxfusZADLINj+dE8clK1frKdmqiJNb1Es75fmI5oY6X2mxLVUciLLjxqw/xr72Dhy+lER6dGd02FQ==}
     engines: {node: '>=10'}
 
+  fzf@0.5.2:
+    resolution: {integrity: sha512-Tt4kuxLXFKHy8KT40zwsUPUkg1CrsgY25FxA2U/j/0WgEDCk3ddc/zLTCCcbSHX9FcKtLuVaDGtGE/STWC+j3Q==}
+
   get-caller-file@2.0.5:
     resolution: {integrity: sha512-DyFP3BM/3YHTQOCUL/w0OZHR0lpKeGrxotcHWcqNEdnltqFwXVfhEBQ94eIo34AfQpo0rGki4cyIiftY06h2Fg==}
     engines: {node: 6.* || 8.* || >= 10.*}
@@ -2491,11 +2589,6 @@ packages:
     resolution: {integrity: sha512-cBznnQ9KjJqU67B52RMC65CMarK2600WFnbkcaiwWq3xy/5haFJlshgnpjovMVJ+Hff49d8GEn0b87C5pDQ10g==}
     hasBin: true
 
-  semver@7.7.3:
-    resolution: {integrity: sha512-SdsKMrI9TdgjdweUSR9MweHA4EJ8YxHn8DFaDisvhVlUOe4BF1tLD7GAj0lIqWVl+dPb/rExr0Btby5loQm20Q==}
-    engines: {node: '>=10'}
-    hasBin: true
-
   semver@7.7.4:
     resolution: {integrity: sha512-vFKC2IEtQnVhpT78h1Yp8wzwrf8CM+MzKMHGJZfBtzhZNycRFnXsHk6E5TxIkkMsgNS7mdX3AGB7x2QM2di4lA==}
     engines: {node: '>=10'}
@@ -2832,6 +2925,10 @@ packages:
     resolution: {integrity: sha512-W/KYk+NFhkmsYpuHq5JykngiOCnxeVL8v8dFnqxSD8qEEdRfXk1SDM6JzNqcERbcGYj9tMrDQBYV9cjgnunFIg==}
     engines: {node: '>=18'}
 
+  tinyexec@1.1.1:
+    resolution: {integrity: sha512-VKS/ZaQhhkKFMANmAOhhXVoIfBXblQxGX1myCQ2faQrfmobMftXeJPcZGp0gS07ocvGJWDLZGyOZDadDBqYIJg==}
+    engines: {node: '>=18'}
+
   tinyglobby@0.2.15:
     resolution: {integrity: sha512-j2Zq4NyQYG5XMST4cbs02Ak8iJUdxRM0XI5QyxXuZOzKOINmWurp3smXu3y5wDcJrptwpSjgXHzIQxR0omXljQ==}
     engines: {node: '>=12.0.0'}
@@ -3121,6 +3218,13 @@ snapshots:
       package-manager-detector: 1.6.0
       tinyexec: 1.0.2
 
+  '@antfu/ni@30.0.0':
+    dependencies:
+      fzf: 0.5.2
+      package-manager-detector: 1.6.0
+      tinyexec: 1.1.1
+      tinyglobby: 0.2.15
+
   '@azu/format-text@1.0.2': {}
 
   '@azu/style-format@1.0.1':
@@ -3225,6 +3329,33 @@ snapshots:
       tabbable: 6.4.0
 
   '@floating-ui/utils@0.2.10': {}
+
+  '@github/copilot-darwin-arm64@1.0.32':
+    optional: true
+
+  '@github/copilot-darwin-x64@1.0.32':
+    optional: true
+
+  '@github/copilot-linux-arm64@1.0.32':
+    optional: true
+
+  '@github/copilot-linux-x64@1.0.32':
+    optional: true
+
+  '@github/copilot-win32-arm64@1.0.32':
+    optional: true
+
+  '@github/copilot-win32-x64@1.0.32':
+    optional: true
+
+  '@github/copilot@1.0.32':
+    optionalDependencies:
+      '@github/copilot-darwin-arm64': 1.0.32
+      '@github/copilot-darwin-x64': 1.0.32
+      '@github/copilot-linux-arm64': 1.0.32
+      '@github/copilot-linux-x64': 1.0.32
+      '@github/copilot-win32-arm64': 1.0.32
+      '@github/copilot-win32-x64': 1.0.32
 
   '@headlessui/react@2.2.9(react-dom@19.2.3(react@19.2.3))(react@19.2.3)':
     dependencies:
@@ -3435,6 +3566,33 @@ snapshots:
       '@nodelib/fs.scandir': 2.1.5
       fastq: 1.20.1
 
+  '@openai/codex@0.121.0':
+    optionalDependencies:
+      '@openai/codex-darwin-arm64': '@openai/codex@0.121.0-darwin-arm64'
+      '@openai/codex-darwin-x64': '@openai/codex@0.121.0-darwin-x64'
+      '@openai/codex-linux-arm64': '@openai/codex@0.121.0-linux-arm64'
+      '@openai/codex-linux-x64': '@openai/codex@0.121.0-linux-x64'
+      '@openai/codex-win32-arm64': '@openai/codex@0.121.0-win32-arm64'
+      '@openai/codex-win32-x64': '@openai/codex@0.121.0-win32-x64'
+
+  '@openai/codex@0.121.0-darwin-arm64':
+    optional: true
+
+  '@openai/codex@0.121.0-darwin-x64':
+    optional: true
+
+  '@openai/codex@0.121.0-linux-arm64':
+    optional: true
+
+  '@openai/codex@0.121.0-linux-x64':
+    optional: true
+
+  '@openai/codex@0.121.0-win32-arm64':
+    optional: true
+
+  '@openai/codex@0.121.0-win32-x64':
+    optional: true
+
   '@pkgjs/parseargs@0.11.0':
     optional: true
 
@@ -3459,7 +3617,7 @@ snapshots:
       extract-zip: 2.0.1
       progress: 2.0.3
       proxy-agent: 6.5.0
-      semver: 7.7.3
+      semver: 7.7.4
       tar-fs: 3.1.1
       unbzip2-stream: 1.4.3
       yargs: 17.7.2
@@ -4726,6 +4884,8 @@ snapshots:
 
   fuse.js@7.1.0: {}
 
+  fzf@0.5.2: {}
+
   get-caller-file@2.0.5: {}
 
   get-east-asian-width@1.4.0: {}
@@ -5902,8 +6062,6 @@ snapshots:
 
   semver@5.7.2: {}
 
-  semver@7.7.3: {}
-
   semver@7.7.4: {}
 
   send@1.2.1:
@@ -6432,6 +6590,8 @@ snapshots:
   through@2.3.8: {}
 
   tinyexec@1.0.2: {}
+
+  tinyexec@1.1.1: {}
 
   tinyglobby@0.2.15:
     dependencies:
