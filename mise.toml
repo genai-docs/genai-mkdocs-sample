@@ -40,6 +40,10 @@ run = "pwsh -File infra/scripts/Deploy-HandsonEnv.ps1"
 description = "Remove the hands-on environment from Azure (Remove-HandsonEnv.ps1)"
 run = "pwsh -File infra/scripts/Remove-HandsonEnv.ps1"
 
+[tasks.update-handson-image]
+description = "Update Container Apps in existing RG to ghcr :latest (Update-HandsonImage.ps1)"
+run = "pwsh -File infra/scripts/Update-HandsonImage.ps1"
+
 [tasks.get-handson-env]
 description = "List hands-on resource groups and their provisioning state (Get-HandsonEnv.ps1)"
 run = "pwsh -File infra/scripts/Get-HandsonEnv.ps1"

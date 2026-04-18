@@ -66,14 +66,10 @@ RUN code-server --install-extension ms-python.python \
 
 # Open VSX 未公開の拡張は Visual Studio Marketplace から .vsix を直接取得して導入
 ARG TEXTLINT_VSIX_VERSION=0.12.1
-ARG CLAUDE_CODE_VSIX_VERSION=2.1.113
-ARG OPENAI_CHATGPT_VSIX_VERSION=26.5415.20818
 ARG GITHUB_COPILOT_CHAT_VSIX_VERSION=0.44.1
 RUN set -e; \
     for spec in \
         "3w36zj6/textlint/${TEXTLINT_VSIX_VERSION}" \
-        "anthropic/claude-code/${CLAUDE_CODE_VSIX_VERSION}" \
-        "openai/chatgpt/${OPENAI_CHATGPT_VSIX_VERSION}" \
         "github/copilot-chat/${GITHUB_COPILOT_CHAT_VSIX_VERSION}" \
     ; do \
         publisher=$(echo "$spec" | cut -d/ -f1); \

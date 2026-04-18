@@ -44,6 +44,7 @@ mise run test
 mise run build-image
 mise run deploy-handson-env -- -UserCount 20
 mise run remove-handson-env -- -All
+mise run update-handson-image -- -All
 mise run get-handson-env
 ```
 
