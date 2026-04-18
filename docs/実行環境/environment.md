@@ -35,13 +35,13 @@ GitHub Container Registry (ghcr.io)
 
 現在の実装では、環境構築に関わる主要ファイルは以下のとおりである。
 
-- インフラのエントリーポイント: `infra/scripts/Deploy-HandsonEnv.ps1`
-- イメージビルド: `infra/scripts/Build-Image.ps1`
-- 環境削除: `infra/scripts/Remove-HandsonEnv.ps1`
-- 共有インフラ定義: `infra/azure/main.bicep`
-- 参加者用アプリ定義: `infra/azure/container-app.bicep`
-- 実行コンテナ定義: `infra/docker/Dockerfile`
-- デプロイ設定: `settings.local.json`
+- インフラのエントリーポイント： `infra/scripts/Deploy-HandsonEnv.ps1`
+- イメージビルド： `infra/scripts/Build-Image.ps1`
+- 環境削除： `infra/scripts/Remove-HandsonEnv.ps1`
+- 共有インフラ定義： `infra/azure/main.bicep`
+- 参加者用アプリ定義： `infra/azure/container-app.bicep`
+- 実行コンテナー定義： `infra/docker/Dockerfile`
+- デプロイ設定： `settings.local.json`
 
 詳細な Azure リソース定義、Container App の構成、パラメーター、命名規則、出力値は Bicep を参照すること。
 
@@ -55,7 +55,7 @@ GitHub Container Registry (ghcr.io)
 
 ### 当日運用
 
-参加者は配布された URL とパスワードで `code-server` にログインする。`mkdocs serve` の起動は参加者の操作で行い、プレビューはコンテナ内部の `localhost:8000` を利用する前提である。
+参加者は配布された URL とパスワードで `code-server` にログインする。`mkdocs serve` の起動は参加者の操作で行い、プレビューはコンテナー内部の `localhost:8000` を利用する前提である。
 
 ### 片付け
 
@@ -63,6 +63,6 @@ GitHub Container Registry (ghcr.io)
 
 ## 補足
 
-- 実行コンテナは `infra/docker/Dockerfile` で定義している。
+- 実行コンテナーは `infra/docker/Dockerfile` で定義している。
 - ローカル開発用 Dev Container は `.devcontainer/devcontainer.json` で同じ Dockerfile を参照している。
 - 実装詳細を文書へ転記しすぎると乖離しやすいため、構成や挙動の正確な確認はコードを優先する。

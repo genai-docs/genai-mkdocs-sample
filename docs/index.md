@@ -29,9 +29,9 @@
 
 ## 役割分担
 
-- サンプル本体: `docs/`, `mkdocs.yml`, `pyproject.toml`, `package.json`, `mise.toml`
-- ローカル開発環境: `.devcontainer/`, `infra/docker/`
-- ハンズオン運用: `infra/azure/`, `infra/scripts/`, `settings.template.json`
+- サンプル本体： `docs/`, `mkdocs.yml`, `pyproject.toml`, `package.json`, `mise.toml`
+- ローカル開発環境： `.devcontainer/`, `infra/docker/`
+- ハンズオン運用： `infra/azure/`, `infra/scripts/`, `settings.template.json`
 
 ## 最短導線
 
