@@ -1,14 +1,12 @@
-site_name: Spec Driven Docs Infra
+site_name: 生成AI時代のドキュメント基盤
 site_description: Best practices for business system documentation and a collection of Mermaid diagram samples
 site_author: Documentation Team
 copyright: Copyright &copy; 2024 @nuits.jp
 
 nav:
   - ホーム: index.md
-  - ガイド:
-      - 利用方法: usage-guide.md
-      - ユーザー環境構築: user-environment-setup.md
-      - ドキュメント記述マニュアル: writing-guide.md
+  - ユーザーガイド: usage-guide.md
+  - 技術スタック: tech-stack.md
   - 実行環境:
       - 概要: 実行環境/index.md
       - クラウド環境構築: 実行環境/cloud-resources-setup.md

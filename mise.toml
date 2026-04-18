@@ -8,9 +8,14 @@ pnpm = "10.27.0"
 PUPPETEER_SKIP_CHROMIUM_DOWNLOAD = "true"
 PUPPETEER_SKIP_DOWNLOAD = "true"
 
+[tasks.setup-system]
+description = "Install system packages on Debian/Ubuntu via apt (requires sudo; one-time)"
+run = "bash infra/scripts/setup-system.sh"
+
 [tasks.setup]
-description = "Install Python/Node dependencies for this repository"
+description = "Install tools and Python/Node dependencies for this repository"
 run = """
+mise install
 uv sync --frozen
 uv run playwright install chromium
 CI=true pnpm install --frozen-lockfile

@@ -1,9 +1,10 @@
 {
-  "name": "Spec Driven Docs Infra",
+  "name": "生成AI時代のドキュメント基盤",
   "build": {
-    "dockerfile": "../infra/docker/Dockerfile",
-    "context": ".."
+    "dockerfile": "Dockerfile",
+    "context": "."
   },
+  "overrideCommand": true,
   "containerEnv": {
     "PUPPETEER_SKIP_CHROMIUM_DOWNLOAD": "true",
     "PUPPETEER_SKIP_DOWNLOAD": "true",

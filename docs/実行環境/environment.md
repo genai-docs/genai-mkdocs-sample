@@ -63,6 +63,6 @@ GitHub Container Registry (ghcr.io)
 
 ## 補足
 
-- 実行コンテナーは `infra/docker/Dockerfile` で定義している。
-- ローカル開発用 Dev Container は `.devcontainer/devcontainer.json` で同じ Dockerfile を参照している。
+- ハンズオン配布用の実行コンテナーは `infra/docker/Dockerfile` で定義し、CI で `ghcr.io/genai-docs/handson-env:latest` として公開している。
+- ローカル開発用 Dev Container は `.devcontainer/Dockerfile` で同ハンズオンイメージの `:latest` をベースとして使う構成である。
 - 実装詳細を文書へ転記しすぎると乖離しやすいため、構成や挙動の正確な確認はコードを優先する。

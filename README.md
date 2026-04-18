@@ -17,8 +17,12 @@ curl https://mise.run | sh
 echo 'eval "$(~/.local/bin/mise activate bash)"' >> ~/.bashrc
 exec "$SHELL"
 mise install
+mise run setup-system  # Debian/Ubuntu のみ、sudo 実行（初回だけ）
 mise run setup
 ```
+
+- `setup-system` は apt で Chromium / フォント / WeasyPrint / Playwright の Chromium 依存を導入する。sudo が必要なので初回に 1 度だけ実行する。
+- `setup` は `uv sync` / `pnpm install` / `playwright install chromium` を実行する。sudo は不要で何度でも実行できる。
 
 主なコマンド：
 
@@ -41,8 +45,7 @@ mise run deploy-handson-env -- -UserCount 20
 ## 詳細ドキュメント
 
 - [ドキュメントサイトのホーム](docs/index.md)
-- [利用方法](docs/usage-guide.md)
-- [ユーザー環境構築](docs/user-environment-setup.md)
+- [ユーザーガイド](docs/usage-guide.md)
 - [実行環境の概要](docs/実行環境/index.md)
 - [ハンズオン環境設計](docs/実行環境/handson.md)
 - [ハンズオン環境情報](docs/実行環境/environment.md)

@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/devcontainers/python:1-3.12-bookworm
+FROM mcr.microsoft.com/devcontainers/python:1-3.13-bookworm
 
 # システムパッケージ（フォント・ブラウザ・レンダリング）
 RUN rm -f /etc/apt/sources.list.d/yarn.list \
@@ -21,8 +21,8 @@ RUN rm -f /etc/apt/sources.list.d/yarn.list \
 # code-server（ブラウザ版 VS Code）
 RUN curl -fsSL https://code-server.dev/install.sh | sh
 
-# Node.js 22
-RUN curl -fsSL https://deb.nodesource.com/setup_22.x | bash - \
+# Node.js 24
+RUN curl -fsSL https://deb.nodesource.com/setup_24.x | bash - \
     && apt-get install -y --no-install-recommends nodejs \
     && rm -rf /var/lib/apt/lists/* \
     && corepack enable
@@ -32,6 +32,28 @@ ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true \
     PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium \
     CHROME_PATH=/usr/bin/chromium \
     CHROME_NO_SANDBOX=true
+
+# drawio-desktop: .drawio → PNG/SVG/PDF の CLI エクスポート専用
+# 公式 apt リポジトリが無いため GitHub Releases API で最新 .deb を毎ビルド時に解決する
+# （イメージ再ビルドで自動的に最新取り込み。ビルド再現性よりも追従性を優先する方針）
+RUN set -eux; \
+    arch=$(dpkg --print-architecture); \
+    deb_url=$(curl -fsSL https://api.github.com/repos/jgraph/drawio-desktop/releases/latest \
+        | grep -Eo "https://github.com/jgraph/drawio-desktop/releases/download/[^\"]*${arch}[^\"]*\\.deb" \
+        | head -n1); \
+    test -n "$deb_url"; \
+    echo "Installing drawio-desktop from: $deb_url"; \
+    curl -fsSL -o /tmp/drawio.deb "$deb_url"; \
+    apt-get update -qq; \
+    apt-get install -y --no-install-recommends /tmp/drawio.deb xvfb; \
+    rm -f /tmp/drawio.deb; \
+    rm -rf /var/lib/apt/lists/*
+
+# GUI を持たないコンテナー向けに Xvfb で仮想ディスプレイを張るラッパー
+# 使い方: drawio-export --export --format png --output out.png input.drawio
+RUN printf '%s\n' '#!/bin/sh' 'exec xvfb-run -a drawio --no-sandbox "$@"' \
+        > /usr/local/bin/drawio-export \
+    && chmod +x /usr/local/bin/drawio-export
 
 USER vscode
 
@@ -48,8 +70,9 @@ RUN mkdir -p /home/vscode/workspace
 WORKDIR /home/vscode/workspace
 COPY --chown=vscode:vscode . .
 
-# Python 依存関係
-RUN uv sync --frozen
+# Python 依存関係 + Playwright Chromium (システム依存は --with-deps で sudo apt 経由導入)
+RUN uv sync --frozen \
+    && uv run playwright install --with-deps chromium
 
 # Node.js 依存関係
 RUN corepack prepare pnpm@10.27.0 --activate \
