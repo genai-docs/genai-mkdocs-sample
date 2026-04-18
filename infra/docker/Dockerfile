@@ -74,9 +74,10 @@ COPY --chown=vscode:vscode . .
 RUN uv sync --frozen \
     && uv run playwright install --with-deps chromium
 
-# Node.js 依存関係
+# Node.js 依存関係（rulesync gitignore は rulesync バイナリが node_modules 経由で揃ってから実行）
 RUN corepack prepare pnpm@10.27.0 --activate \
-    && pnpm install --frozen-lockfile
+    && pnpm install --frozen-lockfile \
+    && rulesync gitignore
 
 # VS Code 拡張機能（code-server 用、Open VSX から取得）
 RUN code-server --install-extension ms-python.python \
