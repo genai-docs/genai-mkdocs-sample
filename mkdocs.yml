@@ -12,6 +12,14 @@ nav:
       - クラウド環境構築: 実行環境/cloud-resources-setup.md
       - ハンズオン環境設計: 実行環境/handson.md
       - ハンズオン環境情報: 実行環境/environment.md
+  - ハンズオン準備:
+      - 概要: ハンズオン準備/index.md
+      - VS Code の初期化: ハンズオン準備/01.vscode.md
+      - GitHub リポジトリの準備: ハンズオン準備/02.github.md
+      - Claude Code のサインイン: ハンズオン準備/03.claude-code.md
+      - Cursor CLI のサインイン: ハンズオン準備/04.cursor.md
+      - Codex CLI のサインイン: ハンズオン準備/05.codex.md
+      - GitHub Copilot CLI のサインイン: ハンズオン準備/06.copilot.md
   - アーキテクチャー:
       - 概要: アーキテクチャー/index.md
       - デプロイ構成: アーキテクチャー/deploy-architecture.md
