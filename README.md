@@ -2,7 +2,7 @@
 
 生成AI時代におけるドキュメント基盤テンプレート。
 
-人が書きやすく読みやすいMarkdownを中心に、`MkDocs`、Mermaid、Draw.io、Marp、PDF出力を組み合わせた文書基盤のサンプルである。主役はサンプル本体であり、実行環境（Docker イメージ・Azure デプロイ）は別リポジトリ [genai-docs/genai-docs-env](https://github.com/genai-docs/genai-docs-env) に分離している。
+人が書きやすく読みやすいMarkdownを中心に、`MkDocs`、Mermaid、Draw.io、Marp、PDF出力を組み合わせた文書基盤のサンプルである。主役はサンプル本体であり、実行環境（Dockerイメージ・Azureデプロイ）は別リポジトリ [genai-docs/genai-docs-env](https://github.com/genai-docs/genai-docs-env) に分離している。
 
 - デモサイト
   - [GitHub Pages](https://genai-docs.github.io/genai-mkdocs-sample/)
@@ -37,10 +37,10 @@ pnpm lint:text
 ## リポジトリ構成
 
 - サンプル本体： `docs/`, `mkdocs.yml`, `pyproject.toml`, `package.json`, `mise.toml`
-- DevContainer 設定： `.devcontainer/`（`ghcr.io/genai-docs/genai-docs-env:latest` をベースに起動）
-- ローカル向け apt 依存導入： `scripts/setup-system.sh`
+- DevContainer設定： `.devcontainer/`（`ghcr.io/genai-docs/genai-docs-env:latest` をベースに起動）
+- ローカル向けapt依存導入： `scripts/setup-system.sh`
 
-実行環境（Docker イメージ定義、Azure Container Apps デプロイ、Bicep、GHCR 公開 CI）は [genai-docs/genai-docs-env](https://github.com/genai-docs/genai-docs-env) にある。
+実行環境（Dockerイメージ定義、Azure Container Appsデプロイ、Bicep、GHCR公開CI）は [genai-docs/genai-docs-env](https://github.com/genai-docs/genai-docs-env) にある。
 
 ## 詳細ドキュメント
 
@@ -52,4 +52,4 @@ pnpm lint:text
 
 ## ハンズオン用イメージ
 
-ハンズオン配布用 code-server コンテナーのビルド・ローカル起動・Azure デプロイ・イメージ更新・CI 公開の手順は、[genai-docs/genai-docs-env](https://github.com/genai-docs/genai-docs-env) のREADMEを参照する。
+ハンズオン配布用code-serverコンテナーのビルド・ローカル起動・Azureデプロイ・イメージ更新・CI公開の手順は、[genai-docs/genai-docs-env](https://github.com/genai-docs/genai-docs-env) のREADMEを参照する。
