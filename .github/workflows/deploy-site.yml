@@ -121,7 +121,7 @@ jobs:
         if: env.IS_SAME_REPO_PR == 'true'
         continue-on-error: ${{ env.IS_PRODUCTION != 'true' }}
         id: deploy-blob
-        uses: nuitsjp/azure-blob-storage-site-deploy@v1
+        uses: nuitsjp/azure-blob-storage-site-deploy@85313d1c4258fa3da643d3d3004a98a28818fc68 # main (no tagged release yet)
         with:
           action: deploy
           storage_account: ${{ vars.AZURE_STORAGE_ACCOUNT }}
