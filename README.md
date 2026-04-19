@@ -37,8 +37,8 @@ pnpm lint:text
 ## リポジトリ構成
 
 - サンプル本体： `docs/`, `mkdocs.yml`, `pyproject.toml`, `package.json`, `mise.toml`
-- DevContainer 設定： `.devcontainer/`（`ghcr.io/genai-docs/handson-env:latest` をベースに起動）
-- ローカル向け apt 依存導入： `infra/scripts/setup-system.sh`
+- DevContainer 設定： `.devcontainer/`（`ghcr.io/genai-docs/genai-docs-env:latest` をベースに起動）
+- ローカル向け apt 依存導入： `scripts/setup-system.sh`
 
 実行環境（Docker イメージ定義、Azure Container Apps デプロイ、Bicep、GHCR 公開 CI）は [genai-docs/genai-docs-env](https://github.com/genai-docs/genai-docs-env) にある。
 

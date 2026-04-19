@@ -1,4 +1,4 @@
-FROM ghcr.io/genai-docs/handson-env:latest
+FROM ghcr.io/genai-docs/genai-docs-env:latest
 
 # ベースのハンズオンイメージに含まれる主要構成（devcontainer でもそのまま流用）:
 #   - Debian 12 + Python 3.13 (devcontainers/python ベース)

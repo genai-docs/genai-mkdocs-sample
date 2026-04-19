@@ -10,7 +10,7 @@ PUPPETEER_SKIP_DOWNLOAD = "true"
 
 [tasks.setup-system]
 description = "Install system packages on Debian/Ubuntu via apt (requires sudo; one-time)"
-run = "bash infra/scripts/setup-system.sh"
+run = "bash scripts/setup-system.sh"
 
 [tasks.setup]
 description = "Install tools and Python/Node dependencies for this repository"
