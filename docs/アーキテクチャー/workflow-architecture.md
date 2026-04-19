@@ -410,6 +410,6 @@ flowchart TB
 
 ## 関連ドキュメント
 
-- [デプロイ構成](deploy-architecture.md) - デプロイアーキテクチャの詳細
+- [デプロイ構成](index.md#デプロイ構成) - デプロイ先のActionへの参照リンク
 - [テキスト校正](text-validation.md) - textlintのルール設定
 - [クラウド環境構築](../実行環境/cloud-resources-setup.md) - Azure / GitHubリソースの構築手順

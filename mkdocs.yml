@@ -22,7 +22,6 @@ nav:
       - GitHub Copilot CLI のサインイン: ハンズオン準備/06.copilot.md
   - アーキテクチャー:
       - 概要: アーキテクチャー/index.md
-      - デプロイ構成: アーキテクチャー/deploy-architecture.md
       - ワークフロー アーキテクチャ: アーキテクチャー/workflow-architecture.md
       - テキスト検証: アーキテクチャー/text-validation.md
   - サンプル:
