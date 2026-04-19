@@ -3,7 +3,7 @@
 このリポジトリは、以下の2つをサンプルとして提供する。
 
 - **ドキュメントを記述する基盤**（Markdown + Mermaid + Draw.io + textlint + MkDocs）
-- **記述した文書を公開する仕組み**（GitHub Pages / Azure Static Web Apps）
+- **記述した文書を公開する仕組み**（GitHub Pages / Azure Blob Storage静的サイト）
 
 採用している技術の一覧は [技術スタック](tech-stack.md) を参照する。
 

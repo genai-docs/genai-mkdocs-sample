@@ -6,7 +6,7 @@
 
 - デモサイト
   - [GitHub Pages](https://genai-docs.github.io/genai-mkdocs-sample/)
-  - [Azure Static Web Apps](https://white-stone-0b8d2c100.4.azurestaticapps.net/)
+  - [Azure Blob Storage 静的サイト](https://stgenaimkdocssampleprod.z11.web.core.windows.net/genai-mkdocs-sample/main/)
 
 ## 最短セットアップ
 
