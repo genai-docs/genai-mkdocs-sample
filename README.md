@@ -4,9 +4,7 @@
 
 人が書きやすく読みやすいMarkdownを中心に、`MkDocs`、Mermaid、Draw.io、Marp、PDF出力を組み合わせた文書基盤のサンプルである。主役はサンプル本体であり、実行環境（Dockerイメージ・Azureデプロイ）は別リポジトリ [genai-docs/genai-docs-env](https://github.com/genai-docs/genai-docs-env) に分離している。
 
-- デモサイト
-  - [GitHub Pages](https://genai-docs.github.io/genai-mkdocs-sample/)
-  - [Azure Blob Storage 静的サイト](https://stgenaimkdocssampleprod.z11.web.core.windows.net/genai-mkdocs-sample/main/)
+- [デモサイト](https://stgenaimkdocssampleprod.z11.web.core.windows.net/genai-mkdocs-sample/main/)
 
 ## 最短セットアップ
 
