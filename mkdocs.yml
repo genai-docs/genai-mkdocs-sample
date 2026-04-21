@@ -42,6 +42,7 @@ theme:
     - content.code.copy
 
 extra_css:
+  - stylesheets/extra.css
   - stylesheets/pdf-fixes.css
 
 extra_javascript:
